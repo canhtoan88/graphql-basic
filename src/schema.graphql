@@ -1,0 +1,63 @@
+type Query {
+    hello(name: String, age: Int): String!
+    add(arr: [Int]): Int!
+    users: [Person!]!
+    posts(status: Boolean): [Post!]!
+    comments: [Comment!]!
+}
+
+type Mutation {
+    createUser(data: NewUserInput!): Person!
+    deleteUser(id: ID!): String!
+    createPost(title: String!, content: String!, author: ID!): Post!
+    updatePost(data: UpdatePostInput!): Post!
+    createComment(content: String!, author: ID!, post: ID!): Comment!
+}
+
+type Subscription {
+    count: Int!
+    comment(postId: ID!): Comment!
+    post: PostSubcriptionPayload!
+}
+
+input NewUserInput {
+    name: String!
+    age: Int!
+}
+
+input UpdatePostInput {
+    id: ID!,
+    title: String,
+    content: String,
+    author: ID!
+}
+
+type Person {
+    id: ID,
+    name: String!
+    age: Int!
+    posts: [Post!]!
+}
+
+type Post {
+    id: ID!
+    title: String!
+    content: String!
+    like: Int!
+    status: Boolean!
+    author: Person!
+    comments: [Comment!]!
+    createdAt: String!
+}
+
+type Comment {
+    id: ID!
+    content: String!
+    author: Person!
+    post: Post!
+}
+
+type PostSubcriptionPayload {
+    mutation: String!
+    data: Post!
+}
